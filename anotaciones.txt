@@ -1,0 +1,72 @@
+--proyecto creado a partir de https://clojurescript.org/guides/webpack
+
+--con el proyecto creado tal cual ejecutando el comando obtuvimos el siguiente error:
+
+Execution error (ExceptionInfo) at cljs.closure/build (closure.clj:319
+3).
+:bundle-cmd :none failed
+
+Full report at:
+C:\Users\usuario\AppData\Local\Temp\clojure-3195651824454130417.edn
+
+-APARENTEMENTE ESTA INDICANDO QUE LO QUE FALLA ES EL COMANDO, HAY QUE JUGAR CON LAS RUTAS DE LOS COMANDOS
+
+--otros como este:
+
+Execution error (BindException) at java.net.DualStackPlainSocketImpl/b
+ind0 (REPL:-2).
+Address already in use: JVM_Bind
+
+Full report at:
+C:\Users\usuario\AppData\Local\Temp\clojure-6847448634111545815.edn
+
+-ESTE ERROR ESTA RELACIONADO AL USO DE LOS PUERTOS. OTRA APLICACION ESTAB USANDO DICHO PUERTO
+
+
+--en el proyecto cljs-webpack obtuvimos estos:
+
+Execution error (IOException) at java.lang.ProcessImpl/create (REPL:-2
+).
+CreateProcess error=2, El sistema no puede encontrar el archivo especi
+ficado
+
+Full report at:
+C:\Users\usuario\AppData\Local\Temp\clojure-2094267067364251569.edn
+
+
+--Probamos agregando el archivo webpack.config.js como sugiere
+https://dev.to/romanliutikov/integrating-clojurescript-with-javascript-tooling-3799
+y borrando las indicaciones "out/index.js" "-o" "out/main.js"
+y funciono, abrio el servidor 9500 en el browser
+
+--La pagina de bienvenida de cljs sugiere crear un index.html con script a out/main.js pero no funciono,
+en cambio servimos el archivo bundle.js generado en la carpeta raiz. dicho cambio hizo que se imprima en la
+consola del browser (.log js/console react/Component) como indica el codigo fuente en core.cljs
+
+--Seguimos sin poder acceder a window.react pero puede ser debido a que en el npm de react dicho objeto no
+este hecho accesible globalmente.
+
+--Si cambiamos de "C:/Program Files/nodejs/npx.cmd" a "C:/Users/usuario/AppData/Roaming/npm/npx.cmd" se
+sigue ejecutando bien pero obtenemos esta advertencia en la consola del browser:
+
+base.js:871 goog.require could not find: cljs.pprint
+goog.logToConsole_ @ base.js:871
+
+--Instalamos photon con 'npm install @silvia-odwyer/photon'
+
+--Agregamos el codigo fuente en core.cljs y requerimos photon de la siguientes maneras
+["@silvia-odwyer/photon" :as photon]
+["silvia-odwyer/photon" :as photon]
+["@silvia-odwyer\\photon" :as photon]
+["silvia-odwyer\\photon" :as photon]
+pero arrojaron el error:
+
+Unexpected error (ExceptionInfo) compiling at (REPL:1).
+No such namespace: silvia-odwyer/photon, could not locate silvia_odwye
+r_SLASH_photon.cljs, silvia_odwyer_SLASH_photon.cljc, or JavaScript so
+urce providing "silvia-odwyer/photon" (Please check that namespaces wi
+th dashes use underscores in the ClojureScript file name) in file C:\U
+sers\usuario\Desktop\clojure\photon-cljs-webpack\src\photon\core.cljs
+
+--Probamos cambiando la carpeta @silvia-odwyer dentro de node-modules a @silvia_odwyer y no funciono.
+nos pregunto si queriamos actualizar los imports pero pusimos que no

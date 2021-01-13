@@ -1,0 +1,1 @@
+{:output-dir "out", :closure-defines #:cljs.core{*global* "window"}, :verbose true, :aot-cache true, :output-to "out/index.js", :bundle-cmd {:none ["C:/Program Files/nodejs/npx.cmd" "C:/Users/usuario/AppData/Roaming/npm/webpack.cmd" "--mode=development"], :default ["npx" "webpack" "out/index.js" "-o" "out/main.js"]}, :browser-repl true, :target :bundle, :main photon.core}
